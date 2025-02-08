@@ -59,3 +59,14 @@
 - To interact with IoC container, we need an object of Application Context.
 
 - When using Spring without SpringBoot, we provide all the configs in "xml" file like which bean to create and injections etc.
+
+- ------------- WHY SPRING BOOT? ----------------
+- Spring we need to work with xml file for configuration which can take a lot of time.
+- In spring boot simpler with the use of annotations.
+
+
+------------------ front controller ----------------------
+- So in Spring, before the request hits the controller layer, it hits the "front controller" -> provided by spring.
+- It contains all the request mappings and it knows where to send each request and it sends the request to the controller layer.
+
+- Conversion from Java object to JSON and JSON to Java object is done by library jackson which comes with spring web.

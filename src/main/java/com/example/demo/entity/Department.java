@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Department {
+public class  Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO  )
     private long departmentId;
