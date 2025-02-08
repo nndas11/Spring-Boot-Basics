@@ -1,0 +1,61 @@
+------------------ Hibernate ------------
+- Hibernate is an Object-Relational Mapping (ORM) framework for Java.
+- It simplifies database interactions by mapping Java objects to database tables and vice versa, allowing developers to interact with databases using Java objects.
+
+
+---------------- IoC and Dependency Injection --------------
+- Inversion of Control (IoC) is a design principle in which the control of object creation and dependency management is transferred from developer to a framework.
+- Instead of a class creating its own dependencies, an external container (like Spring) provides the required dependencies at runtime.
+
+- IoC Benefits:
+    - Reduces coupling between components.
+    - Increases testability (easier to mock dependencies).
+    - Improves maintainability and scalability.
+
+- Dependency Injection (DI) is an implementation of IoC where the dependencies of a class are provided from an external source instead of being created within the class itself.
+- With this, when we need an object of a class we just ask for it, we don't need to create it using new keyword.
+- Spring will inject the object into it.
+
+- Types of Dependency Injection:
+
+  1. Constructor Injection (Recommended for mandatory dependencies) -> we pass the type to constructor and set there. -> This is DEFAULT.
+  2. Setter Injection (For optional dependencies) -> Using setter function we set it. -> Using Autowired
+  3. Field Injection (Not recommended, reduces testability) -> Using Autowired
+
+  - Constructor and Setter Injection is better.
+  - Autowired works BY TYPE.
+  - If type is interface then whoever implements it will of that type.
+  - When we create object if its compulsory we can go for constructor otherwise setter.
+
+ Eg:- public Computer comp; -> Computer is interface and two classes(eg- Desktop and laptop) implement it and have beans.
+ then both classes here are of type Computer as it implement it
+
+ but if there is Autowire annotation on this then it can't be sure which bean to pick
+ Solution - We can set "primary" annotation on either Desktop or Laptop to set priority, if set on both again same issue will happen.
+
+ Solution 2 -> use "qualifier" annotation.
+ Eg-  @Qualifier("laptop") -> this is the name of bean instance u want -> which will be the name of class with all small cases.
+      private Computer comp;
+
+
+----------------- Spring VS Spring Boot -----------------
+- Spring is a comprehensive framework for Java development that provides features like dependency injection (DI), aspect-oriented programming (AOP), and transaction management.
+- It allows you to build enterprise applications but requires a lot of configuration.
+- In Spring, you need to configure everything manually using XML or Java-based configuration.
+
+- Spring Boot is an extension of Spring that makes development faster and easier by removing boilerplate configuration and providing auto-configuration and an embedded server (Tomcat, Jetty, Undertow).
+- Key Features of Spring Boot:
+    - No XML Configuration – Uses annotations instead.
+    - Embedded Servers – Comes with Tomcat/Jetty/Undertow, so no need for an external server.
+    - Auto Configuration – Automatically configures beans based on dependencies.
+    - Spring Boot Starters – Pre-built dependencies for various features (spring-boot-starter-web, spring-boot-starter-data-jpa, etc.).
+    - Production-Ready Features – Built-in monitoring, logging, and metrics with Spring Boot Actuator.
+
+- Use Spring when you need fine-grained control over configuration.
+- Use Spring Boot when you want faster development, less boilerplate, and built-in production features.
+- For most modern applications, Spring Boot is recommended since it simplifies development and is designed for microservices.
+
+- Inside the IoC container, we have all the beans.
+- To interact with IoC container, we need an object of Application Context.
+
+- When using Spring without SpringBoot, we provide all the configs in "xml" file like which bean to create and injections etc.
