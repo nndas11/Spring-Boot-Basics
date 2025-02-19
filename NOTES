@@ -88,3 +88,15 @@
 - @Target     ->	    Defines where the annotation can be applied (e.g., METHOD, FIELD, CLASS).
 - @Documented ->	    Includes the annotation in Javadocs.
 - @Inherited  ->	    Allows subclasses to inherit the annotation from a superclass.
+
+
+-------------- Multithreading ----------
+- Can do multithreading in Java either by
+    1.  extend Thread Class -> then override the run() method. We invoke using the start() method on the object.
+    2.  implement the Runnable interface -> then write the logic inside the run() method. We invoke by creating an object of thread Class and calling the start() method on this object.
+
+- Which way to use?
+- Using Runnable interface preferred because if extend Thread Class, then we cannot extend any other class as Java does not support multiple inheritance.
+- So in this way, we can extend any other class we need and implements as many interfaces as needed as there is no limit on that in Java.
+
+- join() method in thread class waits for the thread to complete before continuing the execution.
