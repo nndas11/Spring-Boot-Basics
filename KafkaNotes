@@ -1,0 +1,6 @@
+------------------------ Kafka --------------------
+- https://www.hellointerview.com/learn/system-design/deep-dives/kafka
+
+- Apache Kafka is an open-source distributed event streaming platform that can be used either as a message queue or as a stream processing system.
+- Kafka excels in delivering high performance, scalability, and durability.
+- It’s engineered to handle vast volumes of data in real-time, ensuring that no message is ever lost and that each piece of data is processed as swiftly as possible.

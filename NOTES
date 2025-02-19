@@ -70,3 +70,21 @@
 - It contains all the request mappings and it knows where to send each request and it sends the request to the controller layer.
 
 - Conversion from Java object to JSON and JSON to Java object is done by library jackson which comes with spring web.
+
+- JPA -> Java Persistence API -> these are standards and Hibernate implements these.
+- We have JPA, so that we can change in future if needed.
+
+
+------------- Annotations -----------
+- Annotations in Java are metadata that provide information about the code without affecting its execution.
+- They are used to provide additional instructions to the compiler, runtime, or frameworks like Spring Boot.
+- Annotations can be added to almost everything in JAVA.
+- We can create custom annotations using the @interface keyword.
+- Custom annotations help in metadata processing and reducing boilerplate code.
+- They can be used in logging, validation, security, AOP, and frameworks.
+- Reflection allows you to read annotations at runtime.
+
+- @Retention  ->	    Defines how long the annotation is retained (SOURCE, CLASS, RUNTIME).
+- @Target     ->	    Defines where the annotation can be applied (e.g., METHOD, FIELD, CLASS).
+- @Documented ->	    Includes the annotation in Javadocs.
+- @Inherited  ->	    Allows subclasses to inherit the annotation from a superclass.
