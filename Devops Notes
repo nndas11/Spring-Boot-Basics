@@ -1,0 +1,149 @@
+---------------- Networking Commands ------------
+- ip address -> list the ip address with network interface.
+- ip address show <network_interface> -> give more details about the network interface including the MAC address.
+- ip route -> give all the route in the host.
+- nestat -> command gives info about networks.
+
+
+- 2hr exam.
+- 15-20 questions.
+- 6 clusters.
+- 66% -> pass mark.
+- learn how to work with docs.
+
+NEW UPDATES
+- AUTO SCALING -> HPA & VPA
+- HELM
+- NETWORK POLICIES
+- GATEWAY -> GatewayClass, Gateway and HTTPRoute
+
+
+
+- Study about getting backup of cluster before upgrading.
+- etcd backup?
+- kubectl -> update question
+- need to study pv and pvc setting up with pod
+- study basic HPA and VPA
+- Kubernetes Gateway, HTTPRoute and GatewayClass
+- helm
+- rolling updates
+- Users and access permissions
+- SecurityContext in POD
+- NetworkPolicy -> ing and eng
+
+
+- To create POD -> Use "kubectl run" command.
+- To create SERVICE -> Use "kubectl expose" command.
+- To check if User can do something -> "k auth can-i --as <user >"
+- TO create HPA imperatively -> "k autoscale".
+- VPA does not come built in with k8 -> so no imperative command.
+- controller-manager -> Manages the Replicas
+
+
+- To check STATIC POD PATH on NODE
+    Add that complete path to the staticPodPath field in the kubelet config.yaml file.
+    root@node01:~# vi /var/lib/kubelet/config.yaml
+
+- Testing NSLookUp from another pod
+    To create a pod test-nslookup. Test that you are able to look up the service and pod names from within the cluster:
+
+    kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
+    kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
+
+
+
+- Cluster upgrade steps using kubeadm -> https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
+
+    1. Update Control Plane Node:
+        - Need to change the K8 package repository to the new version.[Need to be done in both control plane and worker nodes]/
+            - nano /etc/apt/sources.list.d/kubernetes.list
+            - deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ / -> change this to the version we are upgrading.
+
+        - Follow same doc steps.
+
+            - Finding the latest patch.
+                  sudo apt update
+                  sudo apt-cache madison kubeadm
+
+            - Upgrade kubeadm -> replace .x-* -> with correct patch version.
+                  sudo apt-mark unhold kubeadm && \
+                  sudo apt-get update && sudo apt-get install -y kubeadm='1.32.x-*' && \
+                  sudo apt-mark hold kubeadm
+
+            - Get upgrade plan
+                sudo kubeadm upgrade plan
+
+            - Apply the plan
+                sudo kubeadm upgrade apply v1.32.x
+
+            - Upgrading kubelet and kubectl
+                # replace x in 1.32.x-* with the latest patch version
+                sudo apt-mark unhold kubelet kubectl && \
+                sudo apt-get update && sudo apt-get install -y kubelet='1.32.x-*' kubectl='1.32.x-*' && \
+                sudo apt-mark hold kubelet kubectl
+
+
+   ----------------- DRAINING THE NODES ---------------------
+   - The control plane node has taint -> so no other pod can be scheduled here.
+   - If cluster has only one 1 worker node -> then while draining we need the pods to be run somewhere.
+   - For this we remove the taint from the control plane node and drain the worker node
+   - so pods will goto the control plane node
+
+    2. Update Worker nodes.
+        - SSH into each worker node and do all these steps.
+        - Need to change the K8 package repository to the new version.
+        - # replace x in 1.32.x-* with the latest patch version
+          sudo apt-mark unhold kubeadm && \
+          sudo apt-get update && sudo apt-get install -y kubeadm='1.32.x-*' && \
+          sudo apt-mark hold kubeadm
+        - sudo kubeadm upgrade node
+        - kubectl drain <node-to-drain> --ignore-daemonsets
+        - # replace x in 1.32.x-* with the latest patch version
+          sudo apt-mark unhold kubelet kubectl && \
+          sudo apt-get update && sudo apt-get install -y kubelet='1.32.x-*' kubectl='1.32.x-*' && \
+          sudo apt-mark hold kubelet kubectl
+        - # execute this command on a control plane node
+          # replace <node-to-uncordon> with the name of your node
+          kubectl uncordon <node-to-uncordon>
+
+
+
+- ETCD backup
+    - should set the ETCDCTL_API=3.
+    - Use the etcdctl snapshot save command.
+    - find the certificate and keys from the describe command for the etcd pod.
+
+- Annotation and Labeling K8 objects
+
+    - to update labels and annotations on any k8s use label and anotate command.
+        kubectl label pods bar color=red
+
+    - To remove label use <label-name>-
+        kubectl label pods bar color-
+
+
+
+- PV and PVC
+    - PVC are created by pods to request the PV created.
+    - both should be of same storage class for the PVC to claim a PV.
+    - In the pods, under volume section we mention this PVC.
+
+- kubectl cluster-info --kubeconfig /root/CKA/admin.kubeconfig
+- kube-apiserver is running on port 6443
+
+
+- New User comes
+    - Create CSR -> Certificate Signing Request and get approved(k certificate approve).
+    - Create Role with required access and permission.
+    - Create Role binding to bind the role to the user.
+
+- GATEWAY -> GatewayClass, Gateway and HTTPRoute
+    - GatewayClass -> Infrastructure providers create this. Similar to the ingress controllers.
+    - Gateway -> Cluster operators creates this and this is an instance of GatewayClass.
+    - HTTPRoute -> Developers creates this.
+
+- NETWORK POLICIES
+    - They like the guardian around the pods..
+    - Then we define rules to allow ingress and egress traffic on certain ports.
+
+

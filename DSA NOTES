@@ -1,0 +1,2 @@
+
+- For Alphabets we can use int[26] -> instead of hashmap which can make space complexity linear.
