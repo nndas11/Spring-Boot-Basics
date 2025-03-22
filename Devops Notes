@@ -50,7 +50,10 @@ NEW UPDATES
     kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
     kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
 
-
+- For NSLookUp of one pod another pod
+    we need the ip of the pod, then use this command.
+    If for ex- ip is 12.3.44.1
+           nslookup 12-3-44-1.default.pod.cluster.local  -> available in doc.
 
 - Cluster upgrade steps using kubeadm -> https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
 
@@ -134,6 +137,8 @@ NEW UPDATES
 
 - New User comes
     - Create CSR -> Certificate Signing Request and get approved(k certificate approve).
+    - In the CSR -> the certificate should be base64 encoded. so use this command
+            cat john.csr | base64 | tr -d "\n"
     - Create Role with required access and permission.
     - Create Role binding to bind the role to the user.
 
@@ -143,7 +148,29 @@ NEW UPDATES
     - HTTPRoute -> Developers creates this.
 
 - NETWORK POLICIES
-    - They like the guardian around the pods..
+    - They are like the guardian around the pods..
     - Then we define rules to allow ingress and egress traffic on certain ports.
 
+- VPA -> enable vpa for a container in deployment and disable for other.
+
+        kubectl create -n default -f - <<EOF
+        apiVersion: autoscaling.k8s.io/v1
+        kind: VerticalPodAutoscaler
+        metadata:
+          name: multi-container-vpa
+          namespace: default
+        spec:
+          targetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: multi-container-deployment
+          updatePolicy:
+            updateMode: "Auto"
+          resourcePolicy:
+            containerPolicies:
+            - containerName: backend-app
+              mode: Auto
+            - containerName: frontend-app
+              mode: "Off"
+        EOF
 
