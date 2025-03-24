@@ -39,6 +39,12 @@ NEW UPDATES
 - VPA does not come built in with k8 -> so no imperative command.
 - controller-manager -> Manages the Replicas
 
+- To Check logs of the control plane components
+    - /var/log/pods
+    - /var/log/containers
+    - crictl ps + crictl logs
+    - docker ps + docker logs (in case when Docker is used)
+    - kubelet logs: /var/log/syslog or journalctl
 
 - To check STATIC POD PATH on NODE
     Add that complete path to the staticPodPath field in the kubelet config.yaml file.
